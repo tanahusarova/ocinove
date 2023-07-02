@@ -1,0 +1,146 @@
+
+
+.body { 
+  width: 800px;
+}
+
+
+.member_arrow{
+  top: 100px;
+  left: 1255px;
+  background-color: red;
+  height: 100px;
+  width: 20px;
+  position: absolute;      
+
+}
+
+.member_shape button{
+    position: absolute;      
+    width: 55px;
+    height: 55px;
+    border-radius: 50px;
+    top: 100px;
+    left: 1210px;
+    display: inline-block;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+    text-align: center;
+    justify-content: center;
+    border-style: solid;
+    border-width: medium;
+    border-color:  rgba(0, 0, 0, 0.927);
+
+}
+
+.member_inside{
+  flex-direction: column;
+  align-items: center;
+}
+
+.eyes{
+  color: black;
+  font-size: 45px;
+  height: 25px;
+  padding-bottom: 20px;
+  -webkit-text-stroke: 3px #ffffff;
+}
+
+.add_member {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 25px;
+  text-align: center;
+  width: 120px;
+  padding-top: 10px;
+  justify-content: center;
+  height: 100%;
+  margin-left: 60px;
+  margin-right: 60px;
+  margin-bottom: 40px;
+  margin-top: 10px;
+
+
+
+}
+
+.add_member_whole{
+  display: flex;
+  width: 300px;
+  flex-direction: column;
+  float: left;
+
+}
+
+.circle{
+  width: 80px;
+  height: 80px;
+  border-radius: 80px;
+
+
+}
+
+.app button{
+  border: none;
+  background-color: rgb(255, 255, 255);
+  padding: 5px 5px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #2d3b04;
+  letter-spacing: inherit;  
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  margin-top: 20px;
+  width: 80px;
+  text-align: center;
+  padding: 0px;
+
+}
+
+label{
+  display: inline-block;
+  text-align: left;
+  color: #435b03;
+  font-size: 15px;	
+  padding-top: 15px;
+  padding-bottom: 10px;
+  letter-spacing: 5px;
+  width: 200px;
+}
+
+h1{
+  color: #58740c;
+
+}
+
+.playground{
+  width: 800px;
+  height: 800px;
+  background-color: #b7d5553a;
+  float: right;
+  margin: 40px;
+
+
+
+}
+
+.app{
+  display: inline-block;
+  margin: 20px;
+
+}
+
+.arrow{
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  top: 100px;
+  left: 1255px;
+  background-color: red;
+  position: absolute;   
+}
+
+
