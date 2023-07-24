@@ -1,7 +1,19 @@
+.app{
+  font-family: "Century Gothic", serif;
 
+}
 
 .body { 
   width: 800px;
+}
+
+button:hover {
+  background: #8ba61354;
+}
+
+button{
+  background-color: white;
+  cursor: pointer;
 }
 
 
@@ -28,15 +40,16 @@
     font-size: 20px;
     text-align: center;
     justify-content: center;
-    border-style: solid;
-    border-width: medium;
-    border-color:  rgba(0, 0, 0, 0.927);
+    border: none;
 
+    
 }
 
 .member_inside{
   flex-direction: column;
   align-items: center;
+  border: none;
+
 }
 
 .eyes{
@@ -71,6 +84,8 @@
   width: 300px;
   flex-direction: column;
   float: left;
+  display: block;
+  align-items: center;
 
 }
 
@@ -82,28 +97,43 @@
 
 }
 
-.app button{
+.add_member_whole button{
   border: none;
-  background-color: rgb(255, 255, 255);
   padding: 5px 5px;
-  border-radius: 10px;
   cursor: pointer;
   color: #2d3b04;
   letter-spacing: inherit;  
   display: flex;
   align-items: center;
-  margin-left: 10px;
   margin-top: 20px;
   width: 80px;
   text-align: center;
   padding: 0px;
+  letter-spacing: 3px;
+  display: block;
+  border-color: #8ba61354;
+  border-style: solid;
+  border-width: medium;
+  height: 35px;
+  border-radius: 25px;
+  font-size: 15px;
+  margin-left: 10px;
 
+
+}
+
+.left_panel{
+  border: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 label{
   display: inline-block;
-  text-align: left;
-  color: #435b03;
+  text-align: center;
+  color: hwb(76 1% 64%);
   font-size: 15px;	
   padding-top: 15px;
   padding-bottom: 10px;
@@ -134,13 +164,47 @@ h1{
 }
 
 .arrow{
-  width: 15px;
-  height: 15px;
+  width: 20px;
+  height: 20px;
   border-radius: 15px;
-  top: 100px;
+  top: 90px;
   left: 1255px;
-  background-color: red;
   position: absolute;   
 }
 
 
+.parent{
+  width: 80px;
+  height: 80px;
+  border-radius: 80px;
+  background-color: rgb(4, 4, 4);
+}
+
+.child{
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
+  background-color: red;
+}
+
+.button-save button{
+  position: absolute;
+  left: 1210px;
+  width: 150px;
+  border-color:#8ba61354;
+  border-style: solid;
+  border-width: medium;
+  height: 50px;
+  border-radius: 25px;
+  font-size: 15px;	
+  letter-spacing: 3px;
+  color: #2d3b04;
+
+  
+}
+
+.buttons{
+  align-items:flex-end;
+  display: flex;
+  padding-inline: 10px;
+}

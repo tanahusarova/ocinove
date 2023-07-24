@@ -1,21 +1,45 @@
-import React from 'react';
+import React, { useState, useRef, MutableRefObject, useEffect } from "react";
 import Draggable, { DraggableEventHandler } from 'react-draggable';
+import ParametersTopLeft from "./ParametersTopLeft";
 
-interface DraggableComponentProps {
-  position: { x: number; y: number };
-}
+type NewMember = {
+  id:string;
+  parameters: string;
+  color: string;
 
-const Arrow = () => {
-  const handleDrag: DraggableEventHandler = (e, data) => {
-    // Handle drag event
-    console.log('Dragged position:', data.x, data.y);
+};
+
+export const Arrow: React.FC<NewMember> = (prop) => { 
+//  const [deltaPosition, setDeltaPosition] = useState({0, top: prop.parameters.top});
+
+  const buttonStyle = {
+    transform: `${prop.parameters}`,   
+    backgroundColor: prop.color,
+    top: `90px`,
+    left: `1255px`,
+};
+
+/*
+  const handleDrag: DraggableEventHandler = (e:any, ui:any) => {
+    const { left, top } = deltaPosition;
+      
+ 
+    setDeltaPosition({
+        left: left + ui.deltaX,
+        top: top + ui.deltaY,
+    });
+    console.log("psuvam arrow");
+
   };
+  */
 
   return (
-    <Draggable bounds={{left: 0, top: 0, right: 100, bottom: 200}}>
-      <div className='arrow'>
+    <div style={{transform: `${prop.parameters}`}}>
+    <Draggable>
+      <div id={prop.id} className='arrow' style={buttonStyle}>
       </div>
     </Draggable>
+  </div>
   );
 };
 
