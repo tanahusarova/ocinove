@@ -15,6 +15,9 @@ type MemberPair = {
     color: string;
     valid: boolean;
     parameters: Parameters;
+    positionHead: {x:number, y:number};
+    positionArrow: {x:number, y:number};
+
   };
 
   type OptionMember = {
@@ -44,6 +47,8 @@ const AddMember = () => {
   const [searchParams, setSearchParams] = useSearchParams({});
 
 
+  //nastaveny interval na ukladanie
+
   const handleChange = () => {
     if (selectedId >= 0) {
         members[selectedId].color = colourChange;
@@ -63,6 +68,22 @@ useEffect(() => {
   setRender(false);
 }, [render]);
 
+
+const positionChangeHead = (id:string, x:number, y:number) =>{
+    members[Number(id)].positionHead.x = x;
+    members[Number(id)].positionHead.y = y;
+    send();
+
+}
+
+const positionChangeArrow = (id:string, x:number, y:number) =>{
+  let reg: RegExp = /\d+/;
+  let matches = id.match(reg);
+  members[Number(matches?.[0])].positionArrow.x = x;
+  members[Number(matches?.[0])].positionArrow.y = y;
+  send();
+}
+
 const handleDelete = () => {
   if (selectedId >= 0) {
       members[selectedId].valid = false;
@@ -75,6 +96,7 @@ const handleDelete = () => {
   setNameChange('');
   setColourChange('#88c20cff');
   setSelectedId(-1);
+  send();
 };
 
 const handleNew = () => {
@@ -82,6 +104,7 @@ const handleNew = () => {
     setNameNew('');
     setColourNew('#88c20cff');
     setSelectedOption(null);
+    send();
 };
 
 const incId = () => {
@@ -103,12 +126,14 @@ const handleColorChangeChange = (newColor: { hex: string; }) => {
   };
 
 const prepareStringToPost = () => {
-    let result = '';  //id, text, color, topHead, leftHead, topArrow, leftArrow
+    let result = '';  //id, text, color, xhead, yhead, xarrow, yarrow
     members.map((value:MemberPair) => {
       if (value.valid){
           let head = document.getElementById(value.id);
           let arrow = document.getElementById(`arrow_${value.id}`);
-          result += `~|${value.id}||${value.name}||${value.color}||${head?.style.transform}||${arrow?.style.transform}|&`;
+          //console.log(value.positionHead.x);
+          //console.log(`~|${value.id}||${value.name}|${value.positionHead.x}||${value.positionHead.y}||${value.positionArrow.x}||${value.positionArrow.y}|&`);
+          result += `~|${value.id}||${value.name}||${value.color}||${value.positionHead.x}||${value.positionHead.y}||${value.positionArrow.x}||${value.positionArrow.y}|&`;
 
       }
         
@@ -129,6 +154,7 @@ const prepareStringToPost = () => {
 }
 
 const send = () => {
+     console.log("vola sa send");
      postToPhp(prepareStringToPost()).then((res) => { console.log("preslo"); }
      ).catch(err => console.log('problem s pridavanim eventu v new evente'));
   };
@@ -145,7 +171,7 @@ function get() {
             r.text()
             .then(t => {
               reload(t);
-              console.log(t);
+              //console.log(t);
             })
 
         });
@@ -155,14 +181,14 @@ function get() {
  };
 
   const handleSelection = (selectedOption: OptionMember | null) => {
-    console.log(selectedOption?.label, selectedOption?.value);
+    //console.log(selectedOption?.label, selectedOption?.value);
     setSelectedId(selectedOption ? selectedOption?.value : -1);
     setSelectedOption(selectedOption);
-    console.log(selectedOption?.value);
-    console.log(selectedOption ? selectedOption?.value : -1);
+    //console.log(selectedOption?.value);
+    //console.log(selectedOption ? selectedOption?.value : -1);
 
     if (selectedId >= 0) {
-        console.log('som tu');
+        //console.log('som tu');
         setNameChange(members[selectedId].name)
         setColourChange(members[selectedId].color);
     }
@@ -188,27 +214,27 @@ function get() {
 const addComponent = (name:string, color:string) => {
     let id = getId();
 
- //   setMembersObj(membersObj.concat(newComponent)); //pre vykreslovanie
     let p:Parameters  = {arrow:'translate(0px, 0px)', head:'translate(0px, 0px)'};
-    setMembers([...members, {name: name, id: id, color: color, valid:true, parameters:p}]); //pre vyhladavanie pri zmene
+    setMembers([...members, {name: name, id: id, color: color, valid:true, parameters:p, positionHead:{x:0, y:0}, positionArrow:{x:0, y:0}}]); //pre vyhladavanie pri zmene
     generateOptions();
-    console.log(id);
-
-
-   //  -236.5 -266.5
+    send();
+    //console.log(id);
   };
 
-  const reload = (t:string) =>{  //id, text, color, paramHead, paramArrow translate(0px, 0px)
-     let regex: RegExp =  /~\|\d+\|\|[^|~]+\|\|\#[^|~]+\|\|translate\([+-]?\d+(\.\d+)?\p\x\,\s[+-]?\d+(\.\d+)?\p\x\)\|\|translate\([+-]?\d+(\.\d+)?\p\x\,\s[+-]?\d+(\.\d+)?\p\x\)\|&/g;
+  const reload = (t:string) =>{
+    //`~|${value.id}||${value.name}||${value.color}||${value.positionHead.x}||${value.positionHead.y}||${value.positionArrow.x}||${value.positionArrow.y}|&`
+     let regex: RegExp =  /~\|\d+\|\|[^|~]+\|\|\#[^|~]+\|\|[+-]?\d+\|\|[+-]?\d+\|\|[+-]?\d+\|\|[+-]?\d+\|&/g;
      let reg: RegExp = /[^|~&]+/g;
      let matches = t.match(regex);
      let size = matches?.length;
-     console.log(matches);
+     //console.log(matches);
      setMembers([]);
      
 
      if (size === undefined || size === 0) return;
-    var mem:MemberPair[] = [];
+     setIdNew(size);
+
+     var mem:MemberPair[] = [];
      for (let i = 0; i < size; i++){
         let p = matches?.[i]?.match(reg);
         if (p === undefined || p?.length === undefined || p?.length < 8) {
@@ -218,16 +244,20 @@ const addComponent = (name:string, color:string) => {
         let id:string = p ? p[0] : "";
         let text:string = p ? p[1] : "";
         let color:string = p ? p[2] : "";
-        let paramHead:string = p ? p[3] : "";
-        let paramArrow:string = p ? p[4] : "";
+        let paramHeadX:string = p ? p[3] : "";
+        let paramHeadY:string = p ? p[4] : "";
+        let paramArrowX:string = p ? p[5] : "";
+        let paramArrowY:string = p ? p[6] : "";
+
      
-        let parameters:Parameters  = {arrow:paramArrow, head:paramHead};
-        mem = [...mem, {name: text, id: id, color: color, valid:true, parameters:parameters}]; //pre vyhladavanie pri zmene
+        let parameters:Parameters  = {arrow:"", head:""};
+        mem = [...mem, {name: text, id: id, color: color, valid:true, parameters:parameters, 
+        positionHead:{x:Number(paramHeadX), y:Number(paramHeadY)}, positionArrow:{x:Number(paramArrowX), y:Number(paramArrowY)}}]; //pre vyhladavanie pri zmene
 
      }
 
      setMembers(mem);
-     console.log(matches);
+     //console.log(matches);
     
 
   }
@@ -239,6 +269,8 @@ const addComponent = (name:string, color:string) => {
   useEffect(() => {
   }, [colourChange, nameChange]);
   
+  useEffect(() => {
+  }, []);
 
  return (
 <div>
@@ -291,13 +323,14 @@ const addComponent = (name:string, color:string) => {
     </div>
 
 <div className='button-save'>
-        <button className="button-save" style={{top:'380px'}}   
+        <button className="button-save" style={{top:'300px'}}   
         onClick={send}>Uložiť konšteláciu</button>
-        <button className="button-save" style={{top:'300px'}}    
+        <button className="button-save" style={{top:'380px'}}    
         onClick={get}>Načítať konšteláciu</button>
         </div>
 <div>
-   {members.map((value:MemberPair) => (value.valid ? <Member name={value.name} id={value.id} color={value.color} parameters={value.parameters}/> : null))}
+   {members.map((value:MemberPair) => (value.valid ? <Member name={value.name} id={value.id} color={value.color} parameters={value.parameters} 
+   positionChangeHead={positionChangeHead} positionChangeArrow={positionChangeArrow} positionHead={value.positionHead} positionArrow={value.positionArrow} /> : null))}
 </div>
 </div>
     
