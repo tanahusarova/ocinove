@@ -4,6 +4,7 @@ import {Member} from './Member';
 import Select from 'react-select'
 import Parameters from './Parameters';
 import { useSearchParams } from "react-router-dom";
+import {saveMembers} from './api/Save.js'
 
 
 
@@ -144,7 +145,6 @@ const prepareStringToPost = () => {
   async function postToPhp(body:string) {
     fetch(`http://www.jusoft.sk/konstelacie/test/save.php?${searchParams}`, {
         method: 'POST',
-        mode: 'no-cors',
         headers: {
             'Accept': 'text/plain',
             'Content-Type': 'text/plain'
@@ -153,13 +153,54 @@ const prepareStringToPost = () => {
     })
 }
 
+async function saveMembers(body:string) {
+  let response = await fetch(`http://localhost:3005/users/members/${searchParams}`, {
+      method: 'POST',
+      headers: {
+          'Accept': 'text/plain',
+          'Content-Type': 'text/plain'
+      },
+      body: `${body}`
+  })
+
+  if (response.status === 200) {
+      console.log("prechadza post saveMembers");
+      return response;
+  }
+  else {
+    console.log(response.status);
+}
+}
+
 const send = () => {
      console.log("vola sa send");
-     postToPhp(prepareStringToPost()).then((res) => { console.log("preslo"); }
-     ).catch(err => console.log('problem s pridavanim eventu v new evente'));
+     saveMembers(prepareStringToPost()).then((res) => { console.log("preslo saveMembers"); }
+     ).catch(err => console.log('problem s ukladanim'));
   };
 
-function get() {
+async function get() {
+    return fetch(`http://localhost:3005/users/members/${searchParams}`, {
+        })
+    .then(
+        response => {
+            console.log("prechadza post getMembers");
+            console.log(response);
+            response.text()
+            .then(t => {
+              console.log("som tu t " + t);
+              reload(t);
+              }
+              )
+             .catch((error) => {
+            // Better way would be to throw error here and let the client handle (e.g. show error message)
+            // Returning empty array for simplicity only!
+            console.log("chyba 2");
+            return "";})
+        });
+}
+
+/*
+async function get() {
     var res:string = "";
     
     fetch(`http://www.jusoft.sk/konstelacie/test/load.php?${searchParams}`, {
@@ -171,21 +212,18 @@ function get() {
             r.text()
             .then(t => {
               reload(t);
-              //console.log(t);
+              console.log(t);
             })
 
         });
 
     return res;
-  
  };
+  */
 
   const handleSelection = (selectedOption: OptionMember | null) => {
-    //console.log(selectedOption?.label, selectedOption?.value);
     setSelectedId(selectedOption ? selectedOption?.value : -1);
     setSelectedOption(selectedOption);
-    //console.log(selectedOption?.value);
-    //console.log(selectedOption ? selectedOption?.value : -1);
 
     if (selectedId >= 0) {
         //console.log('som tu');
@@ -213,12 +251,10 @@ function get() {
 
 const addComponent = (name:string, color:string) => {
     let id = getId();
-
     let p:Parameters  = {arrow:'translate(0px, 0px)', head:'translate(0px, 0px)'};
     setMembers([...members, {name: name, id: id, color: color, valid:true, parameters:p, positionHead:{x:0, y:0}, positionArrow:{x:0, y:0}}]); //pre vyhladavanie pri zmene
     generateOptions();
     send();
-    //console.log(id);
   };
 
   const reload = (t:string) =>{
@@ -227,18 +263,17 @@ const addComponent = (name:string, color:string) => {
      let reg: RegExp = /[^|~&]+/g;
      let matches = t.match(regex);
      let size = matches?.length;
-     //console.log(matches);
      setMembers([]);
      
-
      if (size === undefined || size === 0) return;
      setIdNew(size);
 
      var mem:MemberPair[] = [];
      for (let i = 0; i < size; i++){
         let p = matches?.[i]?.match(reg);
-        if (p === undefined || p?.length === undefined || p?.length < 8) {
+        if (p === undefined || p?.length === undefined || p?.length < 7) {
           console.log("zly obsah parsera v reload");
+          return;
         }
 
         let id:string = p ? p[0] : "";
@@ -248,7 +283,6 @@ const addComponent = (name:string, color:string) => {
         let paramHeadY:string = p ? p[4] : "";
         let paramArrowX:string = p ? p[5] : "";
         let paramArrowY:string = p ? p[6] : "";
-
      
         let parameters:Parameters  = {arrow:"", head:""};
         mem = [...mem, {name: text, id: id, color: color, valid:true, parameters:parameters, 
