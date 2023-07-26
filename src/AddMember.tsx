@@ -46,6 +46,7 @@ const AddMember = () => {
   const [render, setRender] = useState(false);
   const [selectedOption, setSelectedOption] = useState<OptionMember | null>(null);
   const [searchParams, setSearchParams] = useSearchParams({});
+  const [nameFile, setNameFile] = useState("id=default.txt");
 
 
   //nastaveny interval na ukladanie
@@ -143,7 +144,7 @@ const prepareStringToPost = () => {
   };
 
   async function postToPhp(body:string) {
-    fetch(`http://www.jusoft.sk/konstelacie/test/save.php?${searchParams}`, {
+    fetch(`http://www.jusoft.sk/konstelacie/test/save.php?${nameFile}`, {
         method: 'POST',
         headers: {
             'Accept': 'text/plain',
@@ -154,7 +155,7 @@ const prepareStringToPost = () => {
 }
 
 async function saveMembers(body:string) {
-  let response = await fetch(`/users/members/${searchParams}`, {
+  let response = await fetch(`/users/members/${nameFile}`, {
       method: 'POST',
       headers: {
           'Accept': 'text/plain',
@@ -179,7 +180,7 @@ const send = () => {
   };
 
 async function get() {
-    return fetch(`/users/members/${searchParams}`, {
+    return fetch(`/users/members/${nameFile}`, {
         })
     .then(
         response => {
@@ -308,6 +309,7 @@ const addComponent = (name:string, color:string) => {
 
  return (
 <div>
+<label>verzia 2.1</label>
 <div className='left_panel'>
     <div className='add_member_whole'>
         <div className='add_member'>
@@ -361,6 +363,8 @@ const addComponent = (name:string, color:string) => {
         onClick={send}>Uložiť konšteláciu</button>
         <button className="button-save" style={{top:'380px'}}    
         onClick={get}>Načítať konšteláciu</button>
+        <input value={nameFile} onChange={(e) => setNameFile(e.target.value)} type="name" placeholder="nazov suboru" id="file" name="file" />
+
         </div>
 <div>
    {members.map((value:MemberPair) => (value.valid ? <Member name={value.name} id={value.id} color={value.color} parameters={value.parameters} 

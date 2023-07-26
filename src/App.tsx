@@ -5,15 +5,13 @@ import AddMember from './AddMember';
 import { BrowserRouter, Route, Router, Routes } from 'react-router-dom';
 
 
-
-
 function App() {
   return (
     <BrowserRouter>
     <div className='app'>
       {
         <Routes>
-            <Route path="/" element={<AddMember />} />
+            <Route path="/" element={<AddMember/>} />
         </Routes>
       }
     </div>
