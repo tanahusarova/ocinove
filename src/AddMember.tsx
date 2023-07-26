@@ -155,7 +155,7 @@ const prepareStringToPost = () => {
 }
 
 async function saveMembers(body:string) {
-  let response = await fetch(`/users/members/${nameFile}`, {
+  let response = await fetch(`/users/members`, {
       method: 'POST',
       headers: {
           'Accept': 'text/plain',
@@ -180,7 +180,7 @@ const send = () => {
   };
 
 async function get() {
-    return fetch(`/users/members/${nameFile}`, {
+    return fetch(`/users/members`, {
         })
     .then(
         response => {
@@ -309,7 +309,7 @@ const addComponent = (name:string, color:string) => {
 
  return (
 <div>
-<label>verzia 2.1</label>
+<label>verzia 2.3</label>
 <div className='left_panel'>
     <div className='add_member_whole'>
         <div className='add_member'>
