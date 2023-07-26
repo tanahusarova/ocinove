@@ -154,7 +154,7 @@ const prepareStringToPost = () => {
 }
 
 async function saveMembers(body:string) {
-  let response = await fetch(`http://localhost:3005/users/members/${searchParams}`, {
+  let response = await fetch(`/users/members/${searchParams}`, {
       method: 'POST',
       headers: {
           'Accept': 'text/plain',
@@ -179,7 +179,7 @@ const send = () => {
   };
 
 async function get() {
-    return fetch(`http://localhost:3005/users/members/${searchParams}`, {
+    return fetch(`/users/members/${searchParams}`, {
         })
     .then(
         response => {
