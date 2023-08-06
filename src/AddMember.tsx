@@ -237,8 +237,9 @@ const addComponent = (name:string, color:string) => {
      var mem:MemberPair[] = [];
      for (let i = 0; i < size; i++){
         let p = matches?.[i]?.match(reg);
-        if (p === undefined || p?.length === undefined || p?.length < 8) {
+        if (p === undefined || p?.length === undefined || p?.length < 7) {
           console.log("zly obsah parsera v reload");
+          return;
         }
 
         let id:string = p ? p[0] : "";
@@ -277,6 +278,7 @@ const addComponent = (name:string, color:string) => {
 <div className='left_panel'>
     <div className='add_member_whole'>
         <div className='add_member'>
+        <h1>Verzia 3.1</h1>
         <h1>Pridať účastníka</h1>
           <div>
           <label htmlFor="name">Meno</label>
