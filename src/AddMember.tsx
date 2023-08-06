@@ -128,14 +128,7 @@ const handleColorChangeChange = (newColor: { hex: string; }) => {
 const prepareStringToPost = () => {
     let result = '';  //id, text, color, xhead, yhead, xarrow, yarrow
     members.map((value:MemberPair) => {
-      if (value.valid){
-          let head = document.getElementById(value.id);
-          let arrow = document.getElementById(`arrow_${value.id}`);
-          //console.log(value.positionHead.x);
-          //console.log(`~|${value.id}||${value.name}|${value.positionHead.x}||${value.positionHead.y}||${value.positionArrow.x}||${value.positionArrow.y}|&`);
-          result += `~|${value.id}||${value.name}||${value.color}||${value.positionHead.x}||${value.positionHead.y}||${value.positionArrow.x}||${value.positionArrow.y}|&`;
-
-      }
+      result += `~|${value.id}||${value.name}||${value.color}||${value.positionHead.x}||${value.positionHead.y}||${value.positionArrow.x}||${value.positionArrow.y}|&`;
         
     });
     return result;
@@ -188,9 +181,10 @@ function get() {
     //console.log(selectedOption ? selectedOption?.value : -1);
 
     if (selectedId >= 0) {
-        //console.log('som tu');
-        setNameChange(members[selectedId].name)
-        setColourChange(members[selectedId].color);
+        console.log(selectedId);
+        console.log(members);
+    //    setNameChange(members[selectedId].name)
+    //    setColourChange(members[selectedId].color);
     }
     setRender(true);
   };
@@ -278,7 +272,6 @@ const addComponent = (name:string, color:string) => {
 <div className='left_panel'>
     <div className='add_member_whole'>
         <div className='add_member'>
-        <h1>Verzia 3.1</h1>
         <h1>Pridať účastníka</h1>
           <div>
           <label htmlFor="name">Meno</label>

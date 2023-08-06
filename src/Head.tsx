@@ -17,6 +17,7 @@ type NewMember = {
     const [deltaPosition, setDeltaPosition] = useState({x: 0, y: 0});
     const [x, setX]= useState(prop.position.x)
     const [y, setY]= useState(prop.position.y)
+    const [width, setWidth]=useState(prop.name.length * 16);
 
     const handleStop = (event:any, dragElement:any) => {
         setX(dragElement.x)
@@ -28,9 +29,10 @@ type NewMember = {
 
     const buttonStyle = {
         background: `${prop.color}`,
-        width: '90px',
-        height: '90px',
-        borderRadius: '90px', 
+        width: `${width}px`,
+        height: `${width}px`,
+        borderRadius: `${width}px`, 
+
       };
 
       
