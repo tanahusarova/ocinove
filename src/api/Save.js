@@ -30,7 +30,7 @@ async function getPhp() {
 }
 
 async function saveMembers(body, searchParams) {
-    let response = await fetch(`http://localhost:3005/users/members/${searchParams}`, {
+    let response = await fetch(`https://konstelacie-app.vercel.app/users/members/${searchParams}`, {
         method: 'POST',
         headers: {
             'Accept': 'text/plain',
@@ -48,7 +48,7 @@ async function saveMembers(body, searchParams) {
 }
 
 async function getMembers(searchParams) {
-    return fetch(`http://localhost:3005/users/members/${searchParams}`, {
+    return fetch(`https://konstelacie-app.vercel.app/users/members/${searchParams}`, {
         })
     .then(
         response => {
