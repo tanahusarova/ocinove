@@ -81,7 +81,7 @@ button{
 
 .add_member_whole{
   display: flex;
-  width: 300px;
+  width: 250px;
   flex-direction: column;
   float: left;
   display: block;
