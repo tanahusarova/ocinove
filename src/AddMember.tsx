@@ -4,6 +4,7 @@ import {Member} from './Member';
 import Select from 'react-select'
 import Parameters from './Parameters';
 import { useSearchParams } from "react-router-dom";
+import { response } from 'express';
 
 
 
@@ -43,6 +44,8 @@ const AddMember = () => {
   const [render, setRender] = useState(false);
   const [selectedOption, setSelectedOption] = useState<OptionMember | null>(null);
   const [searchParams, setSearchParams] = useSearchParams({});
+  const [membersString, setMembersString] = useState("");
+
 
   /*
   console.log(searchParams.get('timeout'));
@@ -160,6 +163,7 @@ const send = () => {
 
 function get() {
     var res:string = "";
+    setMembers([]);
     
     fetch(`https://www.jusoft.sk/konstelacie/test/load.php?${searchParams}`, {
         headers: {
@@ -169,7 +173,8 @@ function get() {
         }).then(r => {
             r.text()
             .then(t => {
-              reload(t);
+          //    reload(t);
+              setMembersString(t);
               //console.log(t);
             })
 
@@ -270,10 +275,18 @@ const addComponent = (name:string, color:string) => {
   }, [members]);
   
   useEffect(() => {
+    get();
   }, [colourChange, nameChange]);
+
+  useEffect(() => {
+    reload(membersString);
+  }, [membersString]);
   
   useEffect(() => {
   }, []);
+
+  //const refresh = () => console.log(get()) // window.location.reload();
+
 
 
  return (
