@@ -32,8 +32,6 @@ const AddMember = () => {
   //na zobrazenie potrebujem samostatne objekty
 //  const [membersObj, setMembersObj] = useState<Member[]>([]);
   const [members, setMembers] = useState<MemberPair[]>([]);
-
-
   const [nameNew, setNameNew] = useState('');
   const [colourNew, setColourNew] = useState('#88c20cff');
   const [idNew, setIdNew] = useState(0);
@@ -46,8 +44,11 @@ const AddMember = () => {
   const [selectedOption, setSelectedOption] = useState<OptionMember | null>(null);
   const [searchParams, setSearchParams] = useSearchParams({});
 
-
-  //nastaveny interval na ukladanie
+  /*
+  console.log(searchParams.get('timeout'));
+  console.log(Number(searchParams.get('timeout')));
+  setInterval(()=>{console.log("spusta sa interval"); get();}, 100000)
+  */
 
   const handleChange = () => {
     if (selectedId >= 0) {
@@ -72,7 +73,11 @@ useEffect(() => {
 const positionChangeHead = (id:string, x:number, y:number) =>{
     members[Number(id)].positionHead.x = x;
     members[Number(id)].positionHead.y = y;
+ //   members[Number(id)].positionArrow.x = x + 10;
+ //   members[Number(id)].positionArrow.y = y - 20;
     send();
+    setRender(true);
+    console.log(render);
 
 }
 
@@ -128,14 +133,15 @@ const handleColorChangeChange = (newColor: { hex: string; }) => {
 const prepareStringToPost = () => {
     let result = '';  //id, text, color, xhead, yhead, xarrow, yarrow
     members.map((value:MemberPair) => {
-      result += `~|${value.id}||${value.name}||${value.color}||${value.positionHead.x}||${value.positionHead.y}||${value.positionArrow.x}||${value.positionArrow.y}|&`;
+      let v:number = value.valid ? 1 : 0;
+      result += `~|${value.id}||${value.name}||${value.color}||${value.positionHead.x}||${value.positionHead.y}||${value.positionArrow.x}||${value.positionArrow.y}||${v}|&`;
         
     });
     return result;
   };
 
   async function postToPhp(body:string) {
-    fetch(`http://www.jusoft.sk/konstelacie/test/save.php?${searchParams}`, {
+    fetch(`https://www.jusoft.sk/konstelacie/test/save.php?${searchParams}`, {
         method: 'POST',
         mode: 'no-cors',
         headers: {
@@ -155,7 +161,7 @@ const send = () => {
 function get() {
     var res:string = "";
     
-    fetch(`http://www.jusoft.sk/konstelacie/test/load.php?${searchParams}`, {
+    fetch(`https://www.jusoft.sk/konstelacie/test/load.php?${searchParams}`, {
         headers: {
           'Accept': 'text/plain',
           'Content-Type': 'text/plain'
@@ -182,9 +188,8 @@ function get() {
 
     if (selectedId >= 0) {
         console.log(selectedId);
-        console.log(members);
-    //    setNameChange(members[selectedId].name)
-    //    setColourChange(members[selectedId].color);
+        setNameChange(members[selectedId].name)
+        setColourChange(members[selectedId].color);
     }
     setRender(true);
   };
@@ -216,8 +221,8 @@ const addComponent = (name:string, color:string) => {
   };
 
   const reload = (t:string) =>{
-    //`~|${value.id}||${value.name}||${value.color}||${value.positionHead.x}||${value.positionHead.y}||${value.positionArrow.x}||${value.positionArrow.y}|&`
-     let regex: RegExp =  /~\|\d+\|\|[^|~]+\|\|\#[^|~]+\|\|[+-]?\d+\|\|[+-]?\d+\|\|[+-]?\d+\|\|[+-]?\d+\|&/g;
+    //`~|${value.id}||${value.name}||${value.color}||${value.positionHead.x}||${value.positionHead.y}||${value.positionArrow.x}||${value.positionArrow.y}||valid|&`
+     let regex: RegExp =  /~\|\d+\|\|[^|~]+\|\|\#[^|~]+\|\|[+-]?\d+\|\|[+-]?\d+\|\|[+-]?\d+\|\|[+-]?\d+\|\|[01]+\|&/g;
      let reg: RegExp = /[^|~&]+/g;
      let matches = t.match(regex);
      let size = matches?.length;
@@ -231,7 +236,7 @@ const addComponent = (name:string, color:string) => {
      var mem:MemberPair[] = [];
      for (let i = 0; i < size; i++){
         let p = matches?.[i]?.match(reg);
-        if (p === undefined || p?.length === undefined || p?.length < 7) {
+        if (p === undefined || p?.length === undefined || p?.length < 8) {
           console.log("zly obsah parsera v reload");
           return;
         }
@@ -243,10 +248,13 @@ const addComponent = (name:string, color:string) => {
         let paramHeadY:string = p ? p[4] : "";
         let paramArrowX:string = p ? p[5] : "";
         let paramArrowY:string = p ? p[6] : "";
+        let valid:string = p ? p[7] : "";
+        let isValid:boolean = valid === '0' ? false : true;
+
 
      
         let parameters:Parameters  = {arrow:"", head:""};
-        mem = [...mem, {name: text, id: id, color: color, valid:true, parameters:parameters, 
+        mem = [...mem, {name: text, id: id, color: color, valid:isValid, parameters:parameters, 
         positionHead:{x:Number(paramHeadX), y:Number(paramHeadY)}, positionArrow:{x:Number(paramArrowX), y:Number(paramArrowY)}}]; //pre vyhladavanie pri zmene
 
      }
@@ -266,6 +274,7 @@ const addComponent = (name:string, color:string) => {
   
   useEffect(() => {
   }, []);
+
 
  return (
 <div>
