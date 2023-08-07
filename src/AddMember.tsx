@@ -164,6 +164,7 @@ const send = () => {
 function get() {
     var res:string = "";
     setMembers([]);
+    setMembersString("");
     
     fetch(`https://www.jusoft.sk/konstelacie/test/load.php?${searchParams}`, {
         headers: {
@@ -279,10 +280,12 @@ const addComponent = (name:string, color:string) => {
   }, [colourChange, nameChange]);
 
   useEffect(() => {
+    console.log("bol volany use effect na membersString");
     reload(membersString);
   }, [membersString]);
   
   useEffect(() => {
+    reload(membersString);
   }, []);
 
   //const refresh = () => console.log(get()) // window.location.reload();
