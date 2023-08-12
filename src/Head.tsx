@@ -19,6 +19,8 @@ type NewMember = {
     const [y, setY]= useState(prop.position.y)
     const [width, setWidth]=useState(prop.name.length < 7 ? 90 : prop.name.length * 16);
 
+
+
     const handleStop = (event:any, dragElement:any) => {
         setX(dragElement.x)
         setY(dragElement.y)
@@ -32,6 +34,7 @@ type NewMember = {
         width: `${width}px`,
         height: `${width}px`,
         borderRadius: `${width}px`, 
+        zIndex: 1,
 
       };
 

@@ -45,6 +45,7 @@ const AddMember = () => {
   const [selectedOption, setSelectedOption] = useState<OptionMember | null>(null);
   const [searchParams, setSearchParams] = useSearchParams({});
   const [membersString, setMembersString] = useState("");
+  const [begin, setBegin] = useState(true);
 
 
   /*
@@ -66,6 +67,7 @@ const AddMember = () => {
     setNameChange('');
     setColourChange('#88c20cff');
     setSelectedId(-1);
+    send();
 };
 
 useEffect(() => {
@@ -276,7 +278,6 @@ const addComponent = (name:string, color:string) => {
   }, [members]);
   
   useEffect(() => {
-    get();
   }, [colourChange, nameChange]);
 
   useEffect(() => {
@@ -288,6 +289,11 @@ const addComponent = (name:string, color:string) => {
     reload(membersString);
   }, []);
 
+  useEffect(() => {
+    get();
+    setBegin(false);
+  }, [begin]);
+
   //const refresh = () => console.log(get()) // window.location.reload();
 
 
@@ -295,6 +301,15 @@ const addComponent = (name:string, color:string) => {
  return (
 <div>
 <div className='left_panel'>
+<div className='buttons'>
+<div className='button-save' style={{paddingLeft:'750px'}}>
+        <button className="button-save"  
+        onClick={send}>Uložiť konšteláciu</button>
+        <button className="button-save"   
+        onClick={get}>Načítať konšteláciu</button>
+  </div> 
+  </div>
+
     <div className='add_member_whole'>
         <div className='add_member'>
         <h1>Pridať účastníka</h1>
@@ -341,13 +356,6 @@ const addComponent = (name:string, color:string) => {
     </div>
     <div className='playground'></div>
     </div>
-
-<div className='button-save'>
-        <button className="button-save" style={{top:'300px'}}   
-        onClick={send}>Uložiť konšteláciu</button>
-        <button className="button-save" style={{top:'380px'}}    
-        onClick={get}>Načítať konšteláciu</button>
-        </div>
 <div>
    {members.map((value:MemberPair) => (value.valid ? <Member name={value.name} id={value.id} color={value.color} parameters={value.parameters} 
    positionChangeHead={positionChangeHead} positionChangeArrow={positionChangeArrow} positionHead={value.positionHead} positionArrow={value.positionArrow} /> : null))}

@@ -24,6 +24,11 @@ const handleStop = (event:any, dragElement:any) => {
 
   const buttonStyle = {
     backgroundColor: prop.color,
+    border: '2px solid white',
+    outlineStyle: 'solid',
+    outlineColor: 'invert',
+    zIndex: 5,
+
 };
 
 /*

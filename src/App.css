@@ -64,18 +64,13 @@ button{
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 25px;
   text-align: center;
   width: 120px;
-  padding-top: 10px;
   justify-content: center;
   height: 100%;
-  margin-left: 60px;
+  margin-left: 70px;
   margin-right: 60px;
   margin-bottom: 40px;
-  margin-top: 10px;
-
-
 
 }
 
@@ -143,6 +138,7 @@ label{
 
 h1{
   color: #58740c;
+  font-size: 25px;	
 
 }
 
@@ -151,7 +147,7 @@ h1{
   height: 800px;
   background-color: #b7d5553a;
   float: right;
-  margin: 40px;
+  margin: 20px;
 
 
 
@@ -188,8 +184,6 @@ h1{
 }
 
 .button-save button{
-  position: absolute;
-  left: 1210px;
   width: 150px;
   border-color:#8ba61354;
   border-style: solid;
@@ -199,8 +193,7 @@ h1{
   font-size: 15px;	
   letter-spacing: 3px;
   color: #2d3b04;
-
-  
+  margin: 10px;
 }
 
 .buttons{
