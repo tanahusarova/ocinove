@@ -41,7 +41,9 @@ button{
     text-align: center;
     justify-content: center;
     border: none;
-
+    -webkit-text-fill-color:  rgb(255, 255, 255);
+    -webkit-text-stroke-width: 0.5px;
+    -webkit-text-stroke-color: rgb(145, 145, 145);
     
 }
 
@@ -113,7 +115,6 @@ button{
   border-radius: 25px;
   font-size: 15px;
   margin-left: 10px;
-
 
 }
 

@@ -35,6 +35,8 @@ type NewMember = {
         height: `${width}px`,
         borderRadius: `${width}px`, 
         zIndex: 1,
+        outlineStyle: 'solid',
+        outlineColor: 'rgb(150, 145, 145)',
 
       };
 
